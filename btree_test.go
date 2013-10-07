@@ -11,6 +11,18 @@ func TestEmpty(t *testing.T) {
   }
 }
 
+func TestPut(t *testing.T) {
+  tree := NewTree()
+  err := tree.Put("key", []byte("value"))
+  if err != nil {
+    t.Fatal(err)
+  }
+
+  if tree.GetSize() != 1 || tree.GetHeight() != 1 {
+    panic("Root-only tree has improper size or height.")
+  }
+}
+
 func TestPutGet(t *testing.T) {
   tree := NewTree()
   err := tree.Put("one", []byte{1})

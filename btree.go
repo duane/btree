@@ -14,6 +14,20 @@ type Key interface {
   String() string
 }
 
+type StringKey string
+
+func (k *StringKey) Equals(other interface{}) bool {
+  return string(*k) == string(*(other.(*StringKey)))
+}
+
+func (k *StringKey) Less(other interface{}) bool {
+  return string(*k) < string(*(other.(*StringKey)))
+}
+
+func (k *StringKey) String() string {
+  return string(*k)
+}
+
 type Node struct {
   Key      Key
   Value    []byte
@@ -39,6 +53,15 @@ func (t *Tree) String() string {
 }
 
 func (t *Tree) Put(key string, value []byte) (err error) {
+  string_key := (*StringKey)(&key)
+  node := t.find_insertion_leaf(string_key, value)
+  if node == nil {
+    node = NewNode(string_key, value)
+    t.Root = node
+    t.Height += uint(1)
+    t.Size += uint(1)
+    return
+  }
   panic("unimplemented")
 }
 
@@ -52,4 +75,11 @@ func (t *Tree) GetSize() uint {
 
 func (t *Tree) GetHeight() uint {
   return t.Height
+}
+
+func (t *Tree) find_insertion_leaf(key Key, value []byte) *Node {
+  if t.Root == nil {
+    return nil
+  }
+  panic("unimplemented")
 }
