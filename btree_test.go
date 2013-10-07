@@ -4,6 +4,20 @@ import (
   "testing"
 )
 
+type StringKey string
+
+func (k *StringKey) Equals(other interface{}) bool {
+  return string(*k) == string(*(other.(*StringKey)))
+}
+
+func (k *StringKey) Less(other interface{}) bool {
+  return string(*k) < string(*(other.(*StringKey)))
+}
+
+func (k *StringKey) String() string {
+  return string(*k)
+}
+
 func TestEmpty(t *testing.T) {
   tree := NewTree()
   if tree.GetSize() != 0 || tree.GetHeight() != 0 {
@@ -13,7 +27,8 @@ func TestEmpty(t *testing.T) {
 
 func TestPut(t *testing.T) {
   tree := NewTree()
-  err := tree.Put("key", []byte("value"))
+  key_str := StringKey("key")
+  err := tree.Put(&key_str, []byte("value"))
   if err != nil {
     t.Fatal(err)
   }
@@ -25,7 +40,8 @@ func TestPut(t *testing.T) {
 
 func TestPutGet(t *testing.T) {
   tree := NewTree()
-  err := tree.Put("one", []byte{1})
+  key_str := StringKey("one")
+  err := tree.Put(&key_str, []byte{1})
   if err != nil {
     t.Fatal(err)
   }
