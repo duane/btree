@@ -10,3 +10,20 @@ func TestEmpty(t *testing.T) {
     panic("New tree is not empty")
   }
 }
+
+func TestPutGet(t *testing.T) {
+  tree := NewTree()
+  err := tree.Put("one", []byte{1})
+  if err != nil {
+    t.Fatal(err)
+  }
+
+  value, err := tree.Get("one")
+  if err != nil {
+    t.Fatal(err)
+  }
+
+  if len(value) != 1 || value[0] != 1 {
+    t.Fail()
+  }
+}

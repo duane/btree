@@ -42,6 +42,10 @@ func (t *Tree) Put(key string, value []byte) (err error) {
   panic("unimplemented")
 }
 
+func (t *Tree) Get(key string) (value []byte, err error) {
+  panic("unimplemented")
+}
+
 func (t *Tree) GetSize() uint {
   return t.Size
 }
